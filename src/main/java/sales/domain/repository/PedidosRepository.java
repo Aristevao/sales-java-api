@@ -9,7 +9,7 @@ import sales.domain.entity.Pedido;
 import java.util.List;
 import java.util.Optional;
 
-public interface Pedidos extends JpaRepository<Pedido, Integer> {
+public interface PedidosRepository extends JpaRepository<Pedido, Integer> {
 
     List<Pedido> findByCliente(Cliente cliente);
 

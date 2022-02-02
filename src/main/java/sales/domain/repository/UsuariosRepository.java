@@ -5,7 +5,7 @@ import sales.domain.entity.Usuario;
 
 import java.util.Optional;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface UsuariosRepository extends JpaRepository<Usuario, Integer> {
 
     Optional<Usuario> findByLogin(String login);
 }
