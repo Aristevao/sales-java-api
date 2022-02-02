@@ -14,7 +14,7 @@ public class VendasApplication {
     @Bean
     public CommandLineRunner commandLineRunner(@Autowired ClientesRepository clientesRepository) {
         return args -> {
-            Cliente c = new Cliente(null, "Fulano");
+            Cliente c = new Cliente(null, "Marie");
             clientesRepository.save(c);
         };
     }

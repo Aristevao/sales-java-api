@@ -2,9 +2,7 @@ package sales.api;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import sales.domain.entity.Cliente;
 import sales.domain.repository.ClientesRepository;
 
@@ -21,13 +19,18 @@ public class ClienteController {
 
     @GetMapping("/api/clientes/{id}")
     @ResponseBody
-    public ResponseEntity getClienteById(@PathVariable Integer id) {
+    public ResponseEntity findById(@PathVariable Integer id) {
         Optional<Cliente> cliente = clientesRepository.findById(id);
 
-        if (cliente.isPresent()) {
+        if (cliente.isPresent())
             return ResponseEntity.ok(cliente.get());
-        }
-
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/api/clientes")
+    @ResponseBody
+    public ResponseEntity save(@RequestBody Cliente cliente) {
+        Cliente savedCliente = clientesRepository.save(cliente);
+        return ResponseEntity.ok(savedCliente);
     }
 }
