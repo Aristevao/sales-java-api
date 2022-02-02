@@ -50,13 +50,11 @@ public class ClienteController {
     @PutMapping("/api/clientes/{id}")
     @ResponseBody
     public ResponseEntity update(@RequestBody Cliente clientReq, @PathVariable Integer id) {
-        Optional<Cliente> client = clientesRepository.findById(id);
-        if (client.isPresent()) {
-            clientReq.setId(id);
-            Cliente response = clientesRepository.save(clientReq);
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return clientesRepository.findById(id)
+                .map(foundClient -> {
+                    clientReq.setId(id);
+                    clientesRepository.save(clientReq);
+                    return ResponseEntity.ok(clientReq);
+                }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
