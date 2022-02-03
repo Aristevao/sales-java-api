@@ -1,6 +1,8 @@
 package sales.api;
 
 import org.apache.coyote.Response;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -61,9 +63,14 @@ public class ClienteController {
     }
 
     @GetMapping("/api/clientes")
-    @ResponseBody
     public ResponseEntity findAll(Cliente filter) {
-        List<Cliente> clients = clientesRepository.findAll();
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example example = Example.of(filter, matcher);
+        List<Cliente> clients = clientesRepository.findAll(example);
         return ResponseEntity.ok(clients);
     }
 }
