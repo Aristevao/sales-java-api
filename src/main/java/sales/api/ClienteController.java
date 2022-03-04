@@ -20,28 +20,10 @@ public class ClienteController {
         this.clientesRepository = clientesRepository;
     }
 
-    @GetMapping("{id}")
-    public Cliente findById(@PathVariable Integer id) {
-        return clientesRepository
-                .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente save(@RequestBody Cliente cliente) {
         return clientesRepository.save(cliente);
-    }
-
-    @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Integer id) {
-        clientesRepository.findById(id)
-                .map(client -> {
-                    clientesRepository.delete(client);
-                    return client;
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
     }
 
     @PutMapping("{id}")
@@ -55,6 +37,13 @@ public class ClienteController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
     }
 
+    @GetMapping("{id}")
+    public Cliente findById(@PathVariable Integer id) {
+        return clientesRepository
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
+    }
+
     @GetMapping
     public List<Cliente> findAll(Cliente filter) {
         ExampleMatcher matcher = ExampleMatcher
@@ -63,5 +52,16 @@ public class ClienteController {
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example<Cliente> example = Example.of(filter, matcher);
         return clientesRepository.findAll(example);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Integer id) {
+        clientesRepository.findById(id)
+                .map(client -> {
+                    clientesRepository.delete(client);
+                    return client;
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
     }
 }
