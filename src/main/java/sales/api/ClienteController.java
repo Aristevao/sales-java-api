@@ -57,11 +57,11 @@ public class ClienteController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-        clientesRepository.findById(id)
+        clientesRepository
+                .findById(id)
                 .map(client -> {
                     clientesRepository.delete(client);
                     return client;
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found"));
     }
 }

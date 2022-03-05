@@ -54,4 +54,15 @@ public class ProductController {
         Example<Produto> example = Example.of(filter, matcher);
         return productRepository.findAll(example);
     }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Integer id) {
+        productRepository
+                .findById(id)
+                .map(product -> {
+                    productRepository.delete(product);
+                    return product;
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+    }
 }
