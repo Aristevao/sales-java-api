@@ -9,9 +9,9 @@ import sales.domain.entity.Client;
 import sales.domain.entity.OrderItem;
 import sales.domain.entity.Order;
 import sales.domain.entity.Product;
-import sales.domain.repository.ClientesRepository;
-import sales.domain.repository.ItemsPedidoRepository;
-import sales.domain.repository.PedidosRepository;
+import sales.domain.repository.ClientRepository;
+import sales.domain.repository.OrderItemRepository;
+import sales.domain.repository.OrderRepository;
 import sales.domain.repository.ProductRepository;
 import sales.domain.service.OrderService;
 import sales.exception.BusinessLogicException;
@@ -24,20 +24,20 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImplementation implements OrderService {
 
-    private final PedidosRepository orderRepository;
+    private final OrderRepository orderRepository;
 
-    private final ClientesRepository clientesRepository;
+    private final ClientRepository clientRepository;
 
     private final ProductRepository productRepository;
 
-    private final ItemsPedidoRepository orderItemRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Override
     @Transactional
     // This method has more than one operation in the database (save/saveAll). If one of the operations does not succeed, the annotation runs rollback and none changes are made.
     public Order saveOrder(OrderRequest orderRequest) {
         Integer clientId = orderRequest.getClient();
-        Client client = clientesRepository
+        Client client = clientRepository
                 .findById(clientId)
                 .orElseThrow(() -> new BusinessLogicException("Client does not exist: " + clientId));
 
