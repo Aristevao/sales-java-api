@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class OrderItemRequest {
 
-    private Integer produto;
+    private Integer product;
 
     private Integer quantity;
 }

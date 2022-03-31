@@ -61,7 +61,7 @@ public class OrderServiceImplementation implements OrderService {
 
         return items.stream()
                 .map(dto -> {
-                    Integer productId = dto.getProduto();
+                    Integer productId = dto.getProduct();
                     Produto product = productRepository
                             .findById(productId)
                             .orElseThrow(() -> new BusinessLogicException("Product does not exist: " + productId));
