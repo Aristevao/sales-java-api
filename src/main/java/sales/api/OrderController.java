@@ -1,8 +1,10 @@
 package sales.api;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import sales.domain.dto.request.OrderRequest;
 import sales.domain.service.OrderService;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -14,5 +16,9 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-
+    @PostMapping
+    @ResponseStatus(CREATED)
+    public void save(@RequestBody OrderRequest orderRequest) {
+        orderService.saveOrder(orderRequest);
+    }
 }
