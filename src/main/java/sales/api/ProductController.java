@@ -5,7 +5,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import sales.domain.entity.Produto;
+import sales.domain.entity.Product;
 import sales.domain.repository.ProductRepository;
 
 import java.util.List;
@@ -24,13 +24,13 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Produto save(@RequestBody Produto product) {
+    public Product save(@RequestBody Product product) {
         return productRepository.save(product);
     }
 
     @PutMapping("{id}")
     @ResponseStatus(NO_CONTENT)
-    public void update(@RequestBody Produto product, @PathVariable Integer id) {
+    public void update(@RequestBody Product product, @PathVariable Integer id) {
         productRepository.findById(id)
                 .map(foundProduct -> {
                     product.setId(id);
@@ -40,19 +40,19 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public Produto findById(@PathVariable Integer id) {
+    public Product findById(@PathVariable Integer id) {
         return productRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Product not found"));
     }
 
     @GetMapping
-    public List<Produto> findAll(Produto filter) {
+    public List<Product> findAll(Product filter) {
         ExampleMatcher matcher = ExampleMatcher
                 .matching()
                 .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-        Example<Produto> example = Example.of(filter, matcher);
+        Example<Product> example = Example.of(filter, matcher);
         return productRepository.findAll(example);
     }
 

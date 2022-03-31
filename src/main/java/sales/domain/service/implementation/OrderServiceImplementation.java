@@ -8,7 +8,7 @@ import sales.domain.dto.request.OrderRequest;
 import sales.domain.entity.Client;
 import sales.domain.entity.OrderItem;
 import sales.domain.entity.Pedido;
-import sales.domain.entity.Produto;
+import sales.domain.entity.Product;
 import sales.domain.repository.ClientesRepository;
 import sales.domain.repository.ItemsPedidoRepository;
 import sales.domain.repository.PedidosRepository;
@@ -62,7 +62,7 @@ public class OrderServiceImplementation implements OrderService {
         return items.stream()
                 .map(dto -> {
                     Integer productId = dto.getProduct();
-                    Produto product = productRepository
+                    Product product = productRepository
                             .findById(productId)
                             .orElseThrow(() -> new BusinessLogicException("Product does not exist: " + productId));
 
