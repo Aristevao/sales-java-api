@@ -1,7 +1,7 @@
 package sales.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sales.domain.entity.ItemPedido;
+import sales.domain.entity.OrderItem;
 
-public interface ItemsPedidoRepository extends JpaRepository<ItemPedido, Integer> {
+public interface ItemsPedidoRepository extends JpaRepository<OrderItem, Integer> {
 }

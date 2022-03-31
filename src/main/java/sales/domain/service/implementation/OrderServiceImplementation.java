@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sales.domain.dto.request.OrderItemRequest;
 import sales.domain.dto.request.OrderRequest;
 import sales.domain.entity.Client;
-import sales.domain.entity.ItemPedido;
+import sales.domain.entity.OrderItem;
 import sales.domain.entity.Pedido;
 import sales.domain.entity.Produto;
 import sales.domain.repository.ClientesRepository;
@@ -46,7 +46,7 @@ public class OrderServiceImplementation implements OrderService {
         order.setDataPedido(LocalDate.now());
         order.setClient(client);
 
-        List<ItemPedido> orderItems = convertItems(order, orderRequest.getItens());
+        List<OrderItem> orderItems = convertItems(order, orderRequest.getItens());
         order.setItens(orderItems);
 
         Pedido savedOrder = orderRepository.save(order);
@@ -54,7 +54,7 @@ public class OrderServiceImplementation implements OrderService {
         return savedOrder;
     }
 
-    private List<ItemPedido> convertItems(Pedido order, List<OrderItemRequest> items) {
+    private List<OrderItem> convertItems(Pedido order, List<OrderItemRequest> items) {
         if (items.isEmpty()) {
             throw new BusinessLogicException("Is not possible to place an order without the items");
         }
@@ -66,7 +66,7 @@ public class OrderServiceImplementation implements OrderService {
                             .findById(productId)
                             .orElseThrow(() -> new BusinessLogicException("Product does not exist: " + productId));
 
-                    ItemPedido orderItem = new ItemPedido();
+                    OrderItem orderItem = new OrderItem();
                     orderItem.setQuantidade(dto.getQuantidade());
                     orderItem.setPedido(order);
                     orderItem.setProduto(product);
