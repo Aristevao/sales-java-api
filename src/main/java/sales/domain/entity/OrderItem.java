@@ -15,12 +15,12 @@ public class OrderItem {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "pedido_id")
+    @JoinColumn(name = "order_id")
     private Pedido order;
 
     @ManyToOne
-    @JoinColumn(name = "produto_id")
-    private Produto produto;
+    @JoinColumn(name = "product_id")
+    private Produto product;
 
     @Column
     private Integer quantity;

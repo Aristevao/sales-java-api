@@ -69,7 +69,7 @@ public class OrderServiceImplementation implements OrderService {
                     OrderItem orderItem = new OrderItem();
                     orderItem.setQuantity(dto.getQuantity());
                     orderItem.setOrder(order);
-                    orderItem.setProduto(product);
+                    orderItem.setProduct(product);
                     return orderItem;
                 }).collect(Collectors.toList());
     }
