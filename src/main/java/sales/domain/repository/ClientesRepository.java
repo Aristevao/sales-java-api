@@ -10,14 +10,14 @@ import java.util.List;
 
 public interface ClientesRepository extends JpaRepository<Client, Integer> {
 
-//    @Query(value = " select * from client c where c.nome like '%:nome%' ", nativeQuery = true)
-//    List<Client> encontrarPorNome(@Param("nome") String nome);
+//    @Query(value = " select * from client c where c.name like '%:name%' ", nativeQuery = true)
+//    List<Client> encontrarPorname(@Param("name") String name);
 //
-//    @Query(" delete from Client c where c.nome =:nome ")
+//    @Query(" delete from Client c where c.name =:name ")
 //    @Modifying
-//    void deleteByNome(String nome);
+//    void deleteByname(String name);
 //
-//    boolean existsByNome(String nome);
+//    boolean existsByname(String name);
 //
 //    @Query(" select c from Client c left join fetch c.pedidos where c.id = :id  ")
 //    Client findClienteFetchPedidos(@Param("id") Integer id);

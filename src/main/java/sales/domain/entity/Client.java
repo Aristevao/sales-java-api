@@ -16,12 +16,12 @@ public class Client {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "nome", length = 100)
-    private String nome;
+    @Column(name = "name", length = 100)
+    private String name;
 
     @JsonIgnore
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    private Set<Pedido> pedidos;
+    private Set<Pedido> orders;
 
     @Column(length = 11)
     private String cpf;
