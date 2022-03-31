@@ -18,8 +18,8 @@ public class Pedido {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     @Column(name = "data_pedido")
     private LocalDate dataPedido;

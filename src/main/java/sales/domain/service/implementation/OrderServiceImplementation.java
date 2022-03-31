@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sales.domain.dto.request.OrderItemRequest;
 import sales.domain.dto.request.OrderRequest;
-import sales.domain.entity.Cliente;
+import sales.domain.entity.Client;
 import sales.domain.entity.ItemPedido;
 import sales.domain.entity.Pedido;
 import sales.domain.entity.Produto;
@@ -37,14 +37,14 @@ public class OrderServiceImplementation implements OrderService {
     // This method has more than one operation in the database (save/saveAll). If one of the operations does not succeed, the annotation runs rollback and none changes are made.
     public Pedido saveOrder(OrderRequest orderRequest) {
         Integer clientId = orderRequest.getCliente();
-        Cliente client = clientesRepository
+        Client client = clientesRepository
                 .findById(clientId)
                 .orElseThrow(() -> new BusinessLogicException("Client does not exist: " + clientId));
 
         Pedido order = new Pedido();
         order.setTotal(orderRequest.getTotal());
         order.setDataPedido(LocalDate.now());
-        order.setCliente(client);
+        order.setClient(client);
 
         List<ItemPedido> orderItems = convertItems(order, orderRequest.getItens());
         order.setItens(orderItems);

@@ -8,8 +8,8 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "client")
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +20,7 @@ public class Cliente {
     private String nome;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Pedido> pedidos;
 
     @Column(length = 11)

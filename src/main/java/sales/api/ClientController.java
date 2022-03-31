@@ -4,7 +4,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import sales.domain.entity.Cliente;
+import sales.domain.entity.Client;
 import sales.domain.repository.ClientesRepository;
 
 import java.util.List;
@@ -23,13 +23,13 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Cliente save(@RequestBody Cliente cliente) {
-        return clientesRepository.save(cliente);
+    public Client save(@RequestBody Client client) {
+        return clientesRepository.save(client);
     }
 
     @PutMapping("{id}")
     @ResponseStatus(NO_CONTENT)
-    public void update(@RequestBody Cliente clientReq, @PathVariable Integer id) {
+    public void update(@RequestBody Client clientReq, @PathVariable Integer id) {
         clientesRepository.findById(id)
                 .map(foundClient -> {
                     clientReq.setId(id);
@@ -39,19 +39,19 @@ public class ClientController {
     }
 
     @GetMapping("{id}")
-    public Cliente findById(@PathVariable Integer id) {
+    public Client findById(@PathVariable Integer id) {
         return clientesRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Client not found"));
     }
 
     @GetMapping
-    public List<Cliente> findAll(Cliente filter) {
+    public List<Client> findAll(Client filter) {
         ExampleMatcher matcher = ExampleMatcher
                 .matching()
                 .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-        Example<Cliente> example = Example.of(filter, matcher);
+        Example<Client> example = Example.of(filter, matcher);
         return clientesRepository.findAll(example);
     }
 
