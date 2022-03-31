@@ -36,18 +36,18 @@ public class OrderServiceImplementation implements OrderService {
     @Transactional
     // This method has more than one operation in the database (save/saveAll). If one of the operations does not succeed, the annotation runs rollback and none changes are made.
     public Pedido saveOrder(OrderRequest orderRequest) {
-        Integer clientId = orderRequest.getCliente();
+        Integer clientId = orderRequest.getClient();
         Client client = clientesRepository
                 .findById(clientId)
                 .orElseThrow(() -> new BusinessLogicException("Client does not exist: " + clientId));
 
         Pedido order = new Pedido();
         order.setTotal(orderRequest.getTotal());
-        order.setDataPedido(LocalDate.now());
+        order.setOrderDate(LocalDate.now());
         order.setClient(client);
 
-        List<OrderItem> orderItems = convertItems(order, orderRequest.getItens());
-        order.setItens(orderItems);
+        List<OrderItem> orderItems = convertItems(order, orderRequest.getItems());
+        order.setOrderItems(orderItems);
 
         Pedido savedOrder = orderRepository.save(order);
         orderItemRepository.saveAll(orderItems);

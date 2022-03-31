@@ -21,12 +21,12 @@ public class Pedido {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @Column(name = "data_pedido")
-    private LocalDate dataPedido;
+    @Column(name = "order_date")
+    private LocalDate orderDate;
 
     @Column(name = "total", precision = 20, scale = 2)
     private BigDecimal total;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderItem> itens;
+    private List<OrderItem> orderItems;
 }
