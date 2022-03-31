@@ -21,7 +21,7 @@ public class Client {
 
     @JsonIgnore
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    private Set<Pedido> orders;
+    private Set<Order> orders;
 
     @Column(length = 11)
     private String cpf;

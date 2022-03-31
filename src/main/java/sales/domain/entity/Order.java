@@ -9,8 +9,8 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "pedido")
-public class Pedido {
+@Table(name = "order")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -20,10 +20,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
-    @NotEmpty(message = "{campo.login.required}")
+    @NotEmpty(message = "{field.login.required}")
     private String login;
     @Column
-    @NotEmpty(message = "{campo.password.required}")
+    @NotEmpty(message = "{field.password.required}")
     private String password;
     @Column
     private boolean admin;

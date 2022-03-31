@@ -7,7 +7,7 @@ import sales.domain.dto.request.OrderItemRequest;
 import sales.domain.dto.request.OrderRequest;
 import sales.domain.entity.Client;
 import sales.domain.entity.OrderItem;
-import sales.domain.entity.Pedido;
+import sales.domain.entity.Order;
 import sales.domain.entity.Product;
 import sales.domain.repository.ClientesRepository;
 import sales.domain.repository.ItemsPedidoRepository;
@@ -35,13 +35,13 @@ public class OrderServiceImplementation implements OrderService {
     @Override
     @Transactional
     // This method has more than one operation in the database (save/saveAll). If one of the operations does not succeed, the annotation runs rollback and none changes are made.
-    public Pedido saveOrder(OrderRequest orderRequest) {
+    public Order saveOrder(OrderRequest orderRequest) {
         Integer clientId = orderRequest.getClient();
         Client client = clientesRepository
                 .findById(clientId)
                 .orElseThrow(() -> new BusinessLogicException("Client does not exist: " + clientId));
 
-        Pedido order = new Pedido();
+        Order order = new Order();
         order.setTotal(orderRequest.getTotal());
         order.setOrderDate(LocalDate.now());
         order.setClient(client);
@@ -49,12 +49,12 @@ public class OrderServiceImplementation implements OrderService {
         List<OrderItem> orderItems = convertItems(order, orderRequest.getItems());
         order.setOrderItems(orderItems);
 
-        Pedido savedOrder = orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
         orderItemRepository.saveAll(orderItems);
         return savedOrder;
     }
 
-    private List<OrderItem> convertItems(Pedido order, List<OrderItemRequest> items) {
+    private List<OrderItem> convertItems(Order order, List<OrderItemRequest> items) {
         if (items.isEmpty()) {
             throw new BusinessLogicException("Is not possible to place an order without the items");
         }

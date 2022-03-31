@@ -1,15 +1,9 @@
 package sales.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import sales.domain.entity.Client;
-import sales.domain.entity.Pedido;
+import sales.domain.entity.Order;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface PedidosRepository extends JpaRepository<Pedido, Integer> {
+public interface PedidosRepository extends JpaRepository<Order, Integer> {
 
 //    List<Pedido> findByCliente(Client client);
 //
