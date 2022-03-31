@@ -13,18 +13,18 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "usuario")
-public class Usuario {
+@Table(name = "user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
-    @NotEmpty(message = "{campo.login.obrigatorio}")
+    @NotEmpty(message = "{campo.login.required}")
     private String login;
     @Column
-    @NotEmpty(message = "{campo.senha.obrigatorio}")
-    private String senha;
+    @NotEmpty(message = "{campo.password.required}")
+    private String password;
     @Column
     private boolean admin;
 

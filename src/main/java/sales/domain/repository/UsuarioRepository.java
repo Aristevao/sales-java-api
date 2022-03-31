@@ -1,11 +1,11 @@
 package sales.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sales.domain.entity.Usuario;
+import sales.domain.entity.User;
 
 import java.util.Optional;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface UsuarioRepository extends JpaRepository<User, Integer> {
 
-    Optional<Usuario> findByLogin(String login);
+    Optional<User> findByLogin(String login);
 }
