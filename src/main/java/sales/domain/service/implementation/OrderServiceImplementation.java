@@ -67,8 +67,8 @@ public class OrderServiceImplementation implements OrderService {
                             .orElseThrow(() -> new BusinessLogicException("Product does not exist: " + productId));
 
                     OrderItem orderItem = new OrderItem();
-                    orderItem.setQuantidade(dto.getQuantidade());
-                    orderItem.setPedido(order);
+                    orderItem.setQuantity(dto.getQuantity());
+                    orderItem.setOrder(order);
                     orderItem.setProduto(product);
                     return orderItem;
                 }).collect(Collectors.toList());

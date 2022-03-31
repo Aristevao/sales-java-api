@@ -7,5 +7,5 @@ public class OrderItemRequest {
 
     private Integer produto;
 
-    private Integer quantidade;
+    private Integer quantity;
 }
