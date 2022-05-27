@@ -6,7 +6,6 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import sales.domain.entity.Product;
-
 import sales.domain.repository.ProductRepository;
 
 import java.util.List;
