@@ -8,7 +8,7 @@ import java.util.List;
 public class ErrorEntity {
 
     @Getter
-    private List<String> errors;
+    private final List<String> errors;
 
     public ErrorEntity(final String message) {
         this.errors = Collections.singletonList(message);
