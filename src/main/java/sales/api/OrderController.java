@@ -2,6 +2,7 @@ package sales.api;
 
 import org.springframework.web.bind.annotation.*;
 import sales.domain.dto.request.OrderRequest;
+import sales.domain.entity.Order;
 import sales.domain.service.OrderService;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -18,7 +19,8 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public void save(@RequestBody OrderRequest orderRequest) {
-        orderService.saveOrder(orderRequest);
+    public Integer save(@RequestBody OrderRequest orderRequest) {
+        Order order = orderService.saveOrder(orderRequest);
+        return order.getId();
     }
 }

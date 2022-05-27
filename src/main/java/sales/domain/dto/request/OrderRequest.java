@@ -8,9 +8,9 @@ import java.util.List;
 @Data
 public class OrderRequest {
 
-    private Integer cliente;
+    private Integer client;
 
     private BigDecimal total;
 
-    private List<OrderItemRequest> itens;
+    private List<OrderItemRequest> items;
 }
