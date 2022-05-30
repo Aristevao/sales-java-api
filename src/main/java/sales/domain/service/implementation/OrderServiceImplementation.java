@@ -46,13 +46,13 @@ public class OrderServiceImplementation implements OrderService {
         order.setTotal(orderRequest.getTotal());
         order.setOrderDate(LocalDate.now());
         order.setClient(client);
+        orderRepository.save(order);
 
         List<OrderItem> orderItems = convertItems(order, orderRequest.getItems());
-        order.setOrderItems(orderItems);
-
-        Order savedOrder = orderRepository.save(order);
         orderItemRepository.saveAll(orderItems);
-        return savedOrder;
+
+        order.setOrderItems(orderItems);
+        return order;
     }
 
     @Override

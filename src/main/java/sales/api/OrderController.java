@@ -36,7 +36,7 @@ public class OrderController {
     }
 
     @GetMapping("{id}")
-    public OrderResponse findOrderById(Integer id) {
+    public OrderResponse findOrderById(@PathVariable Integer id) {
         return orderService.getOrderById(id)
                 .map(this::mapToDto)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Order not found: " + id));
