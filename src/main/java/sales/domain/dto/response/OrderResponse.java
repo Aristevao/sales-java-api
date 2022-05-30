@@ -18,5 +18,6 @@ public class OrderResponse {
     private String clientName;
     private BigDecimal total;
     private String orderDate;
+    private String status;
     private List<OrderItemResponse> items;
 }

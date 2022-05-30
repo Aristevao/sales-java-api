@@ -49,6 +49,7 @@ public class OrderController {
                 .cpf(order.getClient().getCpf())
                 .clientName(order.getClient().getName())
                 .total(order.getTotal())
+                .status(order.getOrderStatus().name())
                 .items(mapOrderItemsToDto(order.getOrderItems()))
                 .build();
     }

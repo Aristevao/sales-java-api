@@ -9,6 +9,7 @@ import sales.domain.entity.Client;
 import sales.domain.entity.Order;
 import sales.domain.entity.OrderItem;
 import sales.domain.entity.Product;
+import sales.domain.enums.OrderStatus;
 import sales.domain.repository.ClientRepository;
 import sales.domain.repository.OrderItemRepository;
 import sales.domain.repository.OrderRepository;
@@ -46,6 +47,7 @@ public class OrderServiceImplementation implements OrderService {
         order.setTotal(orderRequest.getTotal());
         order.setOrderDate(LocalDate.now());
         order.setClient(client);
+        order.setOrderStatus(OrderStatus.DONE);
         orderRepository.save(order);
 
         List<OrderItem> orderItems = convertItems(order, orderRequest.getItems());
