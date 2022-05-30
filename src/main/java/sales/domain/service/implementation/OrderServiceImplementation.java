@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import sales.domain.dto.request.OrderItemRequest;
 import sales.domain.dto.request.OrderRequest;
 import sales.domain.entity.Client;
-import sales.domain.entity.OrderItem;
 import sales.domain.entity.Order;
+import sales.domain.entity.OrderItem;
 import sales.domain.entity.Product;
 import sales.domain.repository.ClientRepository;
 import sales.domain.repository.OrderItemRepository;
@@ -18,6 +18,7 @@ import sales.exception.BusinessLogicException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,13 +46,18 @@ public class OrderServiceImplementation implements OrderService {
         order.setTotal(orderRequest.getTotal());
         order.setOrderDate(LocalDate.now());
         order.setClient(client);
+        orderRepository.save(order);
 
         List<OrderItem> orderItems = convertItems(order, orderRequest.getItems());
-        order.setOrderItems(orderItems);
-
-        Order savedOrder = orderRepository.save(order);
         orderItemRepository.saveAll(orderItems);
-        return savedOrder;
+
+        order.setOrderItems(orderItems);
+        return order;
+    }
+
+    @Override
+    public Optional<Order> getOrderById(Integer id) {
+        return orderRepository.findByIdFetchOrderItems(id);
     }
 
     private List<OrderItem> convertItems(Order order, List<OrderItemRequest> items) {
