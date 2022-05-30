@@ -16,6 +16,7 @@ import sales.domain.repository.OrderRepository;
 import sales.domain.repository.ProductRepository;
 import sales.domain.service.OrderService;
 import sales.exception.BusinessLogicException;
+import sales.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -60,6 +61,19 @@ public class OrderServiceImplementation implements OrderService {
     @Override
     public Optional<Order> getOrderById(Integer id) {
         return orderRepository.findByIdFetchOrderItems(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateOrderStatus(Integer id, OrderStatus orderStatus) {
+        Order order = findOrderById(id);
+        order.setOrderStatus(orderStatus);
+        orderRepository.save(order);
+    }
+
+    public Order findOrderById(Integer id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order not found: " + id));
     }
 
     private List<OrderItem> convertItems(Order order, List<OrderItemRequest> items) {
