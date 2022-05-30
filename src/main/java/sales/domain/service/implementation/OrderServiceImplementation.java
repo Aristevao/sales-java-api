@@ -9,12 +9,14 @@ import sales.domain.entity.Client;
 import sales.domain.entity.Order;
 import sales.domain.entity.OrderItem;
 import sales.domain.entity.Product;
+import sales.domain.enums.OrderStatus;
 import sales.domain.repository.ClientRepository;
 import sales.domain.repository.OrderItemRepository;
 import sales.domain.repository.OrderRepository;
 import sales.domain.repository.ProductRepository;
 import sales.domain.service.OrderService;
 import sales.exception.BusinessLogicException;
+import sales.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -46,6 +48,7 @@ public class OrderServiceImplementation implements OrderService {
         order.setTotal(orderRequest.getTotal());
         order.setOrderDate(LocalDate.now());
         order.setClient(client);
+        order.setOrderStatus(OrderStatus.DONE);
         orderRepository.save(order);
 
         List<OrderItem> orderItems = convertItems(order, orderRequest.getItems());
@@ -58,6 +61,19 @@ public class OrderServiceImplementation implements OrderService {
     @Override
     public Optional<Order> getOrderById(Integer id) {
         return orderRepository.findByIdFetchOrderItems(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateOrderStatus(Integer id, OrderStatus orderStatus) {
+        Order order = findOrderById(id);
+        order.setOrderStatus(orderStatus);
+        orderRepository.save(order);
+    }
+
+    public Order findOrderById(Integer id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order not found: " + id));
     }
 
     private List<OrderItem> convertItems(Order order, List<OrderItemRequest> items) {

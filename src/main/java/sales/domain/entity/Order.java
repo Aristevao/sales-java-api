@@ -1,6 +1,7 @@
 package sales.domain.entity;
 
 import lombok.Data;
+import sales.domain.enums.OrderStatus;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -26,6 +27,10 @@ public class Order {
 
     @Column(name = "total", precision = 20, scale = 2)
     private BigDecimal total;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;

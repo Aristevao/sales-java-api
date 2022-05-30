@@ -4,10 +4,12 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import sales.domain.dto.request.OrderRequest;
+import sales.domain.dto.request.UpdateOrderStatusRequest;
 import sales.domain.dto.response.OrderItemResponse;
 import sales.domain.dto.response.OrderResponse;
 import sales.domain.entity.Order;
 import sales.domain.entity.OrderItem;
+import sales.domain.enums.OrderStatus;
 import sales.domain.service.OrderService;
 
 import java.time.format.DateTimeFormatter;
@@ -15,8 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -42,6 +43,12 @@ public class OrderController {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Order not found: " + id));
     }
 
+    @PatchMapping("{orderId}")
+    @ResponseStatus(NO_CONTENT)
+    public void updateOderStatus(@PathVariable Integer orderId, @RequestBody UpdateOrderStatusRequest orderStatus) {
+        orderService.updateOrderStatus(orderId, OrderStatus.valueOf(orderStatus.getStatus()));
+    }
+
     private OrderResponse mapToDto(Order order) {
         return OrderResponse.builder()
                 .id(order.getId())
@@ -49,6 +56,7 @@ public class OrderController {
                 .cpf(order.getClient().getCpf())
                 .clientName(order.getClient().getName())
                 .total(order.getTotal())
+                .status(order.getOrderStatus().name())
                 .items(mapOrderItemsToDto(order.getOrderItems()))
                 .build();
     }

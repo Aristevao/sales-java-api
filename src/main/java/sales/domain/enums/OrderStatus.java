@@ -1,6 +1,6 @@
 package sales.domain.enums;
 
 public enum OrderStatus {
-    MADE,
+    DONE,
     CANCELED
 }
