@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sales.domain.dto.response.ErrorEntity;
-import sales.exception.BusinessLogicException;
-import sales.exception.NotFoundException;
+import sales.common.exception.BusinessLogicException;
+import sales.common.exception.NotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;

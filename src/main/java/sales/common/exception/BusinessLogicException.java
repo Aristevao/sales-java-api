@@ -1,4 +1,4 @@
-package sales.exception;
+package sales.common.exception;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 

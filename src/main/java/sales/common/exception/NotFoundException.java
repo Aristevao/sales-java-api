@@ -1,4 +1,4 @@
-package sales.exception;
+package sales.common.exception;
 
 public class NotFoundException extends RuntimeException {
 

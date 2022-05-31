@@ -15,8 +15,8 @@ import sales.domain.repository.OrderItemRepository;
 import sales.domain.repository.OrderRepository;
 import sales.domain.repository.ProductRepository;
 import sales.domain.service.OrderService;
-import sales.exception.BusinessLogicException;
-import sales.exception.NotFoundException;
+import sales.common.exception.BusinessLogicException;
+import sales.common.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
