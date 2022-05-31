@@ -13,4 +13,8 @@ public class ErrorEntity {
     public ErrorEntity(final String message) {
         this.errors = Collections.singletonList(message);
     }
+
+    public ErrorEntity(final List<String> errors) {
+        this.errors = errors;
+    }
 }

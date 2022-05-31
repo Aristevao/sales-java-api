@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Data
@@ -16,6 +17,7 @@ public class Client {
     @Column(name = "id")
     private Integer id;
 
+    @NotEmpty(message = "Name must not be empty")
     @Column(name = "name", length = 100)
     private String name;
 

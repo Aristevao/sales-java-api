@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import sales.domain.entity.Client;
 import sales.domain.repository.ClientRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -23,7 +24,7 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Client save(@RequestBody Client client) {
+    public Client save(@RequestBody @Valid Client client) {
         return clientRepository.save(client);
     }
 
