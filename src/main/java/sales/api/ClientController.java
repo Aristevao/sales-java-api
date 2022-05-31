@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import sales.domain.entity.Client;
 import sales.domain.repository.ClientRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -23,13 +24,13 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Client save(@RequestBody Client client) {
+    public Client save(@RequestBody @Valid Client client) {
         return clientRepository.save(client);
     }
 
     @PutMapping("{id}")
     @ResponseStatus(NO_CONTENT)
-    public void update(@RequestBody Client clientReq, @PathVariable Integer id) {
+    public void update(@RequestBody @Valid Client clientReq, @PathVariable Integer id) {
         clientRepository.findById(id)
                 .map(foundClient -> {
                     clientReq.setId(id);
