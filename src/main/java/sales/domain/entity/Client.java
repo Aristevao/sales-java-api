@@ -2,6 +2,7 @@ package sales.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -25,6 +26,8 @@ public class Client {
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> orders;
 
+    @NotEmpty(message = "CPF must not be empty")
+    @CPF(message = "Invalid CPF")
     @Column(length = 11)
     private String cpf;
 }
