@@ -12,6 +12,7 @@ import sales.domain.entity.OrderItem;
 import sales.domain.enums.OrderStatus;
 import sales.domain.service.OrderService;
 
+import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +32,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Integer save(@RequestBody OrderRequest orderRequest) {
+    public Integer save(@RequestBody @Valid OrderRequest orderRequest) {
         Order order = orderService.saveOrder(orderRequest);
         return order.getId();
     }
