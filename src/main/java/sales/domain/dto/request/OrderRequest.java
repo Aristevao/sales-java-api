@@ -12,14 +12,14 @@ import java.util.List;
 @Data
 public class OrderRequest {
 
-    @NotNull(message = "Client must be provided")
+    @NotNull(message = "{required.client}")
     private Integer client;
 
-    @NotNull(message = "Total must not be null")
-    @Min(value = 0, message = "Total cannot be a negative value")
-    @Max(value = 9999999, message = "Total must be less than 9999999")
+    @NotNull(message = "{required.total}")
+    @Min(value = 0, message = "{negative.total}")
+    @Max(value = 9999999, message = "{exaggerated.total}")
     private BigDecimal total;
 
-    @NotEmptyList(message = "Order must have at least one item")
+    @NotEmptyList(message = "{empty.list}")
     private List<OrderItemRequest> items;
 }

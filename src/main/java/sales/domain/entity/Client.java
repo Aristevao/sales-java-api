@@ -18,7 +18,7 @@ public class Client {
     @Column(name = "id")
     private Integer id;
 
-    @NotEmpty(message = "Name must not be empty")
+    @NotEmpty(message = "{required.name}")
     @Column(name = "name", length = 100)
     private String name;
 
@@ -26,8 +26,8 @@ public class Client {
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> orders;
 
-    @NotEmpty(message = "CPF must not be empty")
-    @CPF(message = "Invalid CPF")
+    @NotEmpty(message = "{required.cpf}")
+    @CPF(message = "{invalid.cpf}")
     @Column(length = 11)
     private String cpf;
 }

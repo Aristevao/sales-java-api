@@ -16,13 +16,13 @@ public class Product {
     @Column(name = "id")
     private Integer id;
 
-    @NotEmpty(message = "Description must be provided")
+    @NotEmpty(message = "{required.description}")
     @Column(name = "description")
     private String description;
 
-    @Min(value = 0, message = "Price cannot be a negative value")
-    @Max(value = 9999999, message = "Price must be less than 9999999")
-    @NotNull(message = "Price must not be null")
+    @Min(value = 0, message = "{negative.price}")
+    @Max(value = 9999999, message = "{exaggerated.price}")
+    @NotNull(message = "{required.price}")
     @Column(name = "unit_price")
     private BigDecimal price;
 }
