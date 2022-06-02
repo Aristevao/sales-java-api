@@ -28,8 +28,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() // Use a configuration to secure back-end and front-end communication. This api does not have a web client, thus will not be necessary.
                 .authorizeRequests()
-                .antMatchers("/api/clients/**").authenticated()
+                .antMatchers("/api/clients/**")
+                    .hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/products/**")
+                    .hasRole("ADMIN")
+                .antMatchers("/api/orders/**")
+                    .hasAnyRole("USER", "ADMIN")
                 .and()
-                .formLogin();
+                    .formLogin();
     }
 }
