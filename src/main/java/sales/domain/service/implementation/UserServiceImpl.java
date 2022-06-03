@@ -1,12 +1,13 @@
 package sales.domain.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import sales.domain.entity.User;
+import sales.domain.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserDetailsService {
@@ -14,17 +15,23 @@ public class UserServiceImpl implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (!username.equals("admin")) {
-            throw new UsernameNotFoundException("User not found in database");
-        }
+        User user = userRepository.findByLogin(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found in database"));
 
-        return User
+        String[] roles = user.isAdmin() ?
+                new String[]{"ADMIN", "USER"} :
+                new String[]{"USER"};
+
+        return org.springframework.security.core.userdetails.User
                 .builder()
-                .username("admin")
-                .password(passwordEncoder.encode(("123")))
-                .roles("USER", "ADMIN")
+                .username(user.getLogin())
+                .password(user.getPassword())
+                .roles(roles)
                 .build();
     }
 }
