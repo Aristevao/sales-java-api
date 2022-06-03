@@ -1,5 +1,6 @@
 package sales.common.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,9 +8,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import sales.domain.service.implementation.UserServiceImpl;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    public UserServiceImpl userService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -18,10 +23,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder())
-                .withUser("admin")
-                .password(passwordEncoder().encode("321"))
-                .roles("USER");
+        auth.
+                userDetailsService(userService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -35,6 +39,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/orders/**")
                     .hasAnyRole("USER", "ADMIN")
                 .and()
-                    .formLogin();
+                .httpBasic();
     }
 }
