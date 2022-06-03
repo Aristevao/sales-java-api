@@ -1,6 +1,7 @@
 package sales.common.security;
 
-import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,6 @@ import sales.domain.entity.User;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Map;
 
 @Service
 public class JwtService {
@@ -34,23 +34,38 @@ public class JwtService {
                 .compact();
     }
 
-//    public static void main(String[] args) {
-//        ConfigurableApplicationContext context = SpringApplication.run(VendasApplication.class);
-//        JwtService service = context.getBean(JwtService.class);
-//        User user = User.builder().login("admin").build();
-//        String token = service.generateToken(user);
-//        System.out.println("TOKEN: " + token);
-//    }
+    private Claims getClaims(String token) throws ExpiredJwtException {
+        return Jwts
+                .parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
+    }
 
-//    private String doGenerateToken(Map<String, Object> claims, String subject) {
-//        JwtBuilder builder = Jwts.builder()
-//                .setClaims(claims)
-//                .setSubject(subject)
-//                .setIssuedAt(new Date(System.currentTimeMillis()));
-//        if (claims.get("role") != "API") {
-//            builder.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY));
-//        }
-//        return builder.signWith(getSigningKey()).compact();
-//    }
+    public boolean isValidToken(String token) {
+        try {
+            Claims claims = getClaims(token);
+            Date expirationDate = claims.getExpiration();
+            LocalDateTime date = expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            return !LocalDateTime.now().isAfter(date);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
+    public String getUserLogin(String token) throws ExpiredJwtException {
+        return getClaims(token).getSubject();
+    }
+
+    public static void main(String[] args) {
+        ConfigurableApplicationContext context = SpringApplication.run(VendasApplication.class);
+        JwtService service = context.getBean(JwtService.class);
+        User user = User.builder().login("admin").build();
+        String token = service.generateToken(user);
+        System.out.println();
+        System.out.println();
+        System.out.println("TOKEN: " + token);
+        System.out.println("IS_VALID_TOKEN: " + service.isValidToken(token));
+        System.out.println("UserLogin: " + service.getUserLogin(token));
+    }
 }
