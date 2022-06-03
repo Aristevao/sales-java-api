@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import sales.VendasApplication;
 import sales.domain.entity.User;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -57,15 +58,15 @@ public class JwtService {
         return getClaims(token).getSubject();
     }
 
-    public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(VendasApplication.class);
-        JwtService service = context.getBean(JwtService.class);
-        User user = User.builder().login("admin").build();
-        String token = service.generateToken(user);
-        System.out.println();
-        System.out.println();
-        System.out.println("TOKEN: " + token);
-        System.out.println("IS_VALID_TOKEN: " + service.isValidToken(token));
-        System.out.println("UserLogin: " + service.getUserLogin(token));
-    }
+//    public static void main(String[] args) {
+//        ConfigurableApplicationContext context = SpringApplication.run(VendasApplication.class);
+//        JwtService service = context.getBean(JwtService.class);
+//        User user = User.builder().login("admin").build();
+//        String token = service.generateToken(user);
+//        System.out.println();
+//        System.out.println();
+//        System.out.println("TOKEN: " + token);
+//        System.out.println("IS_VALID_TOKEN: " + service.isValidToken(token));
+//        System.out.println("UserLogin: " + service.getUserLogin(token));
+//    }
 }

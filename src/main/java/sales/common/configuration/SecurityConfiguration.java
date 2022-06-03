@@ -1,5 +1,6 @@
 package sales.common.configuration;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -48,16 +49,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/clients/**")
                     .hasAnyRole("USER", "ADMIN")
+                    .antMatchers("/api/orders/**")
+                    .hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/products/**")
                     .hasRole("ADMIN")
-                .antMatchers("/api/orders/**")
-                    .hasAnyRole("USER", "ADMIN")
                     .antMatchers(POST, "/api/users/**")
                     .permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .sessionManagement().sessionCreationPolicy(STATELESS)
+                    .sessionManagement()
+                    .sessionCreationPolicy(STATELESS)
                 .and()
-                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

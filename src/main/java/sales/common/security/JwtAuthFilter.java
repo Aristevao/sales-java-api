@@ -29,11 +29,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         String authorization = request.getHeader("Authorization");
-        if ((authorization != null && authorization.startsWith(("Bearer")))) {
+        if( authorization != null && authorization.startsWith("Bearer")){
             String token = authorization.split(" ")[1];
             boolean isValid = jwtService.isValidToken(token);
 
-            if ((isValid)) {
+            if(isValid){
                 String userLogin = jwtService.getUserLogin(token);
                 UserDetails user = userService.loadUserByUsername(userLogin);
                 UsernamePasswordAuthenticationToken userAuthenticationToken = new
