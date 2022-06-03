@@ -2,30 +2,43 @@ package sales.common.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
+import sales.common.security.JwtAuthFilter;
+import sales.common.security.JwtService;
 import sales.domain.service.implementation.UserServiceImpl;
+
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public UserServiceImpl userService;
+    @Autowired
+    private JwtService jwtService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public OncePerRequestFilter jwtFilter() {
+        return new JwtAuthFilter(jwtService, userService);
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.
-                userDetailsService(userService)
+        auth
+                .userDetailsService(userService)
                 .passwordEncoder(passwordEncoder());
     }
 
@@ -39,10 +52,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .hasRole("ADMIN")
                 .antMatchers("/api/orders/**")
                     .hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST,"/api/users/**")
+                    .antMatchers(POST, "/api/users/**")
                     .permitAll()
                 .anyRequest().authenticated()
                 .and()
-                    .httpBasic();
+                .sessionManagement().sessionCreationPolicy(STATELESS)
+                .and()
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
