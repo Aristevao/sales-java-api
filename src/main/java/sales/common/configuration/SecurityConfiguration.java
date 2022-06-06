@@ -1,12 +1,12 @@
 package sales.common.configuration;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -15,8 +15,7 @@ import sales.common.security.JwtAuthFilter;
 import sales.common.security.JwtService;
 import sales.domain.service.implementation.UserServiceImpl;
 
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static org.springframework.http.HttpMethod.*;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -44,22 +43,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable() // Use a configuration to secure back-end and front-end communication. This api does not have a web client, thus will not be necessary.
+    public void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .cors().and()
+                .csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                .antMatchers("/api/clients/**")
-                    .hasAnyRole("USER", "ADMIN")
-                    .antMatchers("/api/orders/**")
-                    .hasAnyRole("USER", "ADMIN")
-                .antMatchers("/api/products/**")
-                    .hasRole("ADMIN")
-                    .antMatchers(POST, "/api/users/**")
-                    .permitAll()
-                .anyRequest().authenticated()
-                .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(STATELESS)
-                .and()
-                    .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+                .antMatchers("/api/products/**").hasRole("ADMIN")
+                .antMatchers(OPTIONS, "/**").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers(POST, "/api/users/**").permitAll()
+                .antMatchers(POST, "/users/**").permitAll()
+                .antMatchers(PUT, "/users/forgot").permitAll()
+                .anyRequest()
+                .authenticated();
+
+        httpSecurity.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.headers().cacheControl();
     }
 }
