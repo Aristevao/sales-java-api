@@ -10,7 +10,7 @@ import sales.domain.entity.User;
 import sales.domain.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImplementation implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;

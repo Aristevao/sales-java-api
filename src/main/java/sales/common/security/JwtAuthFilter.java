@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
-import sales.domain.service.implementation.UserServiceImpl;
+import sales.domain.service.implementation.UserServiceImplementation;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,9 +16,9 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserServiceImpl userService;
+    private final UserServiceImplementation userService;
 
-    public JwtAuthFilter(JwtService jwtService, UserServiceImpl userService) {
+    public JwtAuthFilter(JwtService jwtService, UserServiceImplementation userService) {
         this.jwtService = jwtService;
         this.userService = userService;
     }

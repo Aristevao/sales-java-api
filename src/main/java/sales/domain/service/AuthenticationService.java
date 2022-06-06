@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import sales.common.exception.InvalidCredentialsException;
 import sales.domain.entity.User;
 import sales.domain.repository.UserRepository;
-import sales.domain.service.implementation.UserServiceImpl;
+import sales.domain.service.implementation.UserServiceImplementation;
 
 @Service
 public class AuthenticationService {
     @Autowired
-    private UserServiceImpl userService;
+    private UserServiceImplementation userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

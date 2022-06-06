@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.filter.OncePerRequestFilter;
 import sales.common.security.JwtAuthFilter;
 import sales.common.security.JwtService;
-import sales.domain.service.implementation.UserServiceImpl;
+import sales.domain.service.implementation.UserServiceImplementation;
 
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -21,7 +21,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    public UserServiceImpl userService;
+    public UserServiceImplementation userService;
     @Autowired
     private JwtService jwtService;
 

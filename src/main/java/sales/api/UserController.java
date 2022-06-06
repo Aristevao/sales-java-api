@@ -3,9 +3,8 @@ package sales.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import sales.common.security.JwtService;
 import sales.domain.entity.User;
-import sales.domain.service.implementation.UserServiceImpl;
+import sales.domain.service.implementation.UserServiceImplementation;
 
 import javax.validation.Valid;
 
@@ -16,7 +15,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserServiceImplementation userService;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping
