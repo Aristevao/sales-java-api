@@ -8,13 +8,15 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Data
 @Entity
 @Table(name = "orders")
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -29,7 +31,7 @@ public class Order {
     private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(name = "status")
     private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "order")

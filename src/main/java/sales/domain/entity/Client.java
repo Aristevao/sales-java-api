@@ -8,13 +8,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Data
 @Entity
 @Table(name = "client")
 public class Client {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private Integer id;
 
