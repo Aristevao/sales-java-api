@@ -5,15 +5,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sales.domain.entity.User;
 import sales.domain.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImplementation implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
     public User saveUser(User user) {
         return userRepository.save(user);
     }
@@ -21,7 +23,7 @@ public class UserServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByLogin(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found in database"));
+                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " was not found"));
 
         String[] roles = user.isAdmin() ?
                 new String[]{"ADMIN", "USER"} :

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import sales.domain.entity.User;
-import sales.domain.service.implementation.UserServiceImpl;
+import sales.domain.service.implementation.UserServiceImplementation;
 
 import javax.validation.Valid;
 
@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserServiceImplementation userService;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping
@@ -25,5 +25,4 @@ public class UserController {
         user.setPassword(encryptedPassword);
         return userService.saveUser(user);
     }
-
 }
