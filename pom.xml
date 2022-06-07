@@ -7,12 +7,39 @@
     <groupId>sales</groupId>
     <artifactId>sales</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>${project.packaging}</packaging>  <!-- Only used in Production environment. Creates a .JAR file &ndash;&gt;-->
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
+
+    <!--    Profiles settings
+     Command: <mvn clean package -P development> AND <mvn clean package -P production>
+     If no environment is set, is used the active by default: development.
+     Production: creates a .WAR file.
+     Development: creates a .JAR file.
+     -->
+    <profiles>
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>development</id>
+            <properties>
+                <project.packaging>jar</project.packaging>
+                <tomcat.scope>compile</tomcat.scope>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <project.packaging>war</project.packaging>
+                <tomcat.scope>provided</tomcat.scope>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -22,6 +49,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency> <!-- Only used in Production environment.-->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
