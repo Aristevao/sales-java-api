@@ -1,5 +1,9 @@
 package sales.api;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +16,7 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
+@Api("Clients API")
 @RestController
 @RequestMapping("/api/clients")
 public class ClientController {
@@ -40,6 +45,11 @@ public class ClientController {
     }
 
     @GetMapping("{id}")
+    @ApiOperation("Get a client's data")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Client found"),
+            @ApiResponse(code = 404, message = "Client not found")
+    })
     public Client findById(@PathVariable Integer id) {
         return clientRepository
                 .findById(id)
